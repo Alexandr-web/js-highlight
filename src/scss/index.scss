@@ -1,0 +1,30 @@
+@import "./_vars";
+
+*[data-highlight-code] {
+	background: $backgroundColor;
+	color: $defaultColor;
+}
+
+.highlight {
+	&__s {
+		&-dft {
+			color: $defaultColor;
+		}
+
+		&-f {
+			color: $functionColor;
+		}
+
+		&-oprs {
+			color: $operatorsColor;
+		}
+
+		&-fn {
+			color: $functionNameColor;
+		}
+
+		&-v {
+			color: $varColor;
+		}
+	}
+}
