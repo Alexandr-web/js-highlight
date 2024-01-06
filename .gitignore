@@ -1,3 +1,4 @@
 dist
 node_modules
 src/js/script.js
+src/index.html
