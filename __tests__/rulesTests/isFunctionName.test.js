@@ -5,7 +5,7 @@ import errorsMessages from "../../src/js/helpers/errorsMessages";
 describe("Тесты для метода isFunctionName класса Rules:", () => {
 	const rules = new Rules();
 	const { string: stringMessage, } = errorsMessages;
-	const { functionName: funcNameClass, } = styles;
+	const { functionName: funcNameClass, function: functionClass, } = styles;
 
 	test("Передаем тип null:", () => {
 		expect(rules.isFunctionName.bind(rules, null)).toThrow(stringMessage);
@@ -31,6 +31,34 @@ describe("Тесты для метода isFunctionName класса Rules:", ()
 	test("Передаем код со стрелочной функцией:", () => {
 		const code = "const func = () => null;";
 		const res = `const <span class="${funcNameClass}">func</span> = () => null;`;
+
+		expect(rules.isFunctionName(code)).toBe(res);
+	});
+	test("Передаем код с методом (стрелочная функция):", () => {
+		const code = `
+			{
+				a: () => 123,
+			}
+		`;
+		const res = `
+			{
+				<span class="${funcNameClass}">a</span>: () => 123,
+			}
+		`;
+
+		expect(rules.isFunctionName(code)).toBe(res);
+	});
+	test("Передаем код с методом (обычная функция):", () => {
+		const code = `
+			{
+				a: <span class="${functionClass}">function</span> () return 123,
+			}
+		`;
+		const res = `
+			{
+				<span class="${funcNameClass}">a</span>: <span class="${functionClass}">function</span> () return 123,
+			}
+		`;
 
 		expect(rules.isFunctionName(code)).toBe(res);
 	});

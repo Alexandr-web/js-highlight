@@ -10,7 +10,7 @@ export default {
 	// Функции (function)
 	function: "highlight__s-f",
 
-	// Имена функций (function name, name: () =>)
+	// Имена функций (function name, name: () =>, const name = function(), { name: function(), name: () => , name() {} })
 	functionName: "highlight__s-fn",
 
 	// Контекст (this)

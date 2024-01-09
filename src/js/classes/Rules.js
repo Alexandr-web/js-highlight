@@ -28,6 +28,30 @@ export default class Rules {
 	}
 
 	/**
+	 * Проверяет на название функции
+	 * @param {string} s Строка
+	 * @returns {string} Измененная строка
+	 */
+	isFunctionName(s) {
+		if (!this.types.isString(s)) {
+			throw new Error(errorsMessages.string);
+		}
+
+		const ignoreFunctionNames = ["if", "while", "for", "do", "switch", "typeof", "else\sif", "void", "function"];
+		const regexp =
+			/([a-z|A-Z]+(?=(?<!class)\s*?\=\s*?(<.*?function|(\(.*?\)))))|((?<!new\s*?)\b[а-я|А-Я|_|a-z|A-Z|\d|\$]+\b(?=\s*?\:?\s*?(?=(\(.*?\))|(<.*?function))))/gms;
+		const { functionName: functionNameClass, } = styles;
+
+		return s.replace(regexp, (match) => {
+			if (ignoreFunctionNames.includes(match)) {
+				return match;
+			}
+
+			return `<span class="${functionNameClass}">${match}</span>`;
+		});
+	}
+
+	/**
 	 * Проверяет на ключевые слова const, let и var
 	 * @param {string} s Строка
 	 * @returns {string} Измененная строка
@@ -43,30 +67,6 @@ export default class Rules {
 			const { var: varClass, } = styles;
 
 			return `<span class="${varClass}">${match}</span>`;
-		});
-	}
-
-	/**
-	 * Проверяет на название функции
-	 * @param {string} s Строка
-	 * @returns {string} Измененная строка
-	 */
-	isFunctionName(s) {
-		if (!this.types.isString(s)) {
-			throw new Error(errorsMessages.string);
-		}
-
-		const ignoreFunctionNames = ["if", "while", "for", "do", "switch", "typeof", "else\sif", "void"];
-		const regexp =
-			/([a-z|A-Z]+(?=(?<!class)\s*?\=\s*?(<.*?function|(\(.*?\)))))|((?<!new\s*?)\b[а-я|А-Я|_|a-z|A-Z|\d|\$]+\b(?=\s*?(\:\s*?<.*?function)?\s*?\(.*?\)))/gms;
-		const { functionName: functionNameClass, } = styles;
-
-		return s.replace(regexp, (match) => {
-			if (ignoreFunctionNames.includes(match)) {
-				return match;
-			}
-
-			return `<span class="${functionNameClass}">${match}</span>`;
 		});
 	}
 
