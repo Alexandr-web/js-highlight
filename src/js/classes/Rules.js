@@ -71,7 +71,7 @@ export default class Rules {
 	}
 
 	/**
-	 * Проверяет на ключевые слова return, continue, break, throw, in, typeof, of, delete, void, this
+	 * Проверяет на ключевые слова return, continue, break, throw, in, typeof, of, delete, void, this, instanceof
 	 * @param {string} s Строка
 	 * @returns {string} Измененная строка
 	 */
@@ -81,8 +81,10 @@ export default class Rules {
 		}
 
 		const { operatorsStyle: operatorsClass, } = styles;
+		const operators = ["return", "continue", "break", "throw", "in", "typeof", "of", "delete", "void", "this", "instanceof"];
+		const regexp = new RegExp(`\\b(${operators.join("|")})\\b(?=\s*)`, "gms");
 
-		return s.replace(/\b(return|continue|break|throw|in|typeof|of|delete|void|this)\b(?=\s*)/gms, (str) => {
+		return s.replace(regexp, (str) => {
 			return `<span class="${operatorsClass}">${str}</span>`;
 		});
 	}
