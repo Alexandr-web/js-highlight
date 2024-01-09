@@ -7,12 +7,36 @@
 
 .highlight {
 	&__s {
+		&-cls {
+			color: $classColor;
+		}
+
+		&-clsn {
+			color: $classNameColor;
+		}
+
+		&-cds {
+			color: $conditionsColor;
+		}
+
+		&-nmr {
+			color: $numberColor;
+		}
+		
+		&-on {
+			color: $operatorNewColor;
+		}
+
 		&-dft {
 			color: $defaultColor;
 		}
 
 		&-f {
 			color: $functionColor;
+		}
+
+		&-cmts {
+			color: $commentsColor;
 		}
 
 		&-oprs {

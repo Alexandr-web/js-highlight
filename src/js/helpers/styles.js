@@ -13,10 +13,7 @@ export default {
 	// Имена функций (function name, name: () =>, const name = function(), { name: function(), name: () => , name() {} })
 	functionName: "highlight__s-fn",
 
-	// Контекст (this)
-	context: "highlight__s-ctx",
-
-	// Стиль для операторов return, continue, break, throw, in, typeof, of, delete, void, this
+	// Стиль для операторов return, continue, break, throw, in, typeof, of, delete, void, this, default
 	operatorsStyle: "highlight__s-oprs",
 
 	// Стиль для класса (class)
@@ -25,21 +22,21 @@ export default {
 	// Имена классов (class Name)
 	className: "highlight__s-clsn",
 
-	// Аргументы функций/методов (function a(a1, a2, a3, ...))
-	arguments: "highlight__s-a",
-
 	// Комментарии (//, #, /**/)
 	comments: "highlight__s-cmts",
 
 	// Математические операторы (+, -, --, ++, **, *, /, %)
 	math: "highlight__s-m",
 
+	// Стиль для числа (1, 2n, 0.xff, 255.0, 0b1111, 0.35e3)
+	number: "highlight__s-nmr",
+
 	// Условные операторы (if, else, else if, &&, ||, !)
-	conditions: "highlight__s-ds",
+	conditions: "highlight__s-cds",
 
 	// Кавычки ("",'',``)
 	quotes: "highlight__s-q",
 
-	// Стиль по умолчанию (, (, ), [, ], ...)
-	default: "highlight__s-dft",
+	// Стиль для оператора new
+	newOperatorStyle: "highlight__s-on",
 };

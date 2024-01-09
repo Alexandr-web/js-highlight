@@ -24,9 +24,16 @@ describe("Тесты для метода isOperators класса Rules:", () =>
 
 		expect(rules.isOperators(code)).toBe(code);
 	});
-	test("Передаем код, содержащий return, continue, break, throw, in, typeof, of, delete, void, this, instanceof:", () => {
+	test("Передаем код, содержащий return, continue, break, throw, in, typeof, of, delete, void, this, instanceof, default:", () => {
 		const code = `
 		function exampleFunction(arr) {
+			let fruit = 'apple';
+
+			switch (fruit) {
+			  default:
+				console.log('Unknown fruit');
+			}
+
 			// return statement
 			return arr.length;
 		  
@@ -77,6 +84,13 @@ describe("Тесты для метода isOperators класса Rules:", () =>
 		`;
 		const res = `
 		function exampleFunction(arr) {
+			let fruit = 'apple';
+
+			switch (fruit) {
+			  <span class="${operatorsClass}">default</span>:
+				console.log('Unknown fruit');
+			}
+
 			// <span class="${operatorsClass}">return</span> statement
 			<span class="${operatorsClass}">return</span> arr.length;
 		  
