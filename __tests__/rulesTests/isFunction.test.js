@@ -38,8 +38,8 @@ describe("Тесты для метода isFunction класса Rules:", () => 
 		expect(rules.isFunction(code)).toBe(res);
 	});
 	test("Строка кода с обычной функцией:", () => {
-		const code = "function sayHello() { return 'Hello!'; }";
-		const res = `<span class="${funcClass}">function</span> sayHello() { return 'Hello!'; }`;
+		const code = "function sayHello() { return 1; }";
+		const res = `<span class="${funcClass}">function</span> sayHello() { return 1; }`;
 
 		expect(rules.isFunction(code)).toBe(res);
 	});

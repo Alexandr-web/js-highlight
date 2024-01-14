@@ -5,9 +5,91 @@ import Types from "./Types";
 export default class Rules {
 	/**
 	 * Конструктор класса Rules
+	 * @param {string} initalString Изначальная строка
 	 */
-	constructor() {
+	constructor(initalString) {
 		this.types = new Types();
+		this.initalString = initalString;
+	}
+
+	/**
+	 * Проверяет на кавычки '', ""
+	 * @param {string} s Строка
+	 * @returns {string} Измененная строка
+	 */
+	isOneLineQuotes(s) {
+		if (!this.types.isString(s)) {
+			throw new Error(errorsMessages.string);
+		}
+
+		const { quotes: quotesClass, } = styles;
+		const regexp = /\B(\"|\')[^\"\'.]*?(\"|\')\B/g;
+
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${quotesClass}">${match}</span>`;
+
+			return res;
+		});
+	}
+
+	/**
+	 * Проверяет на кавычки ``
+	 * @param {string} s Строка
+	 * @returns {string} Измененная строка
+	 */
+	isMultilineQuotes(s) {
+		if (!this.types.isString(s)) {
+			throw new Error(errorsMessages.string);
+		}
+
+		const { quotes: quotesClass, } = styles;
+		const regexp = /\`[^\`.]*?\`/g;
+
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${quotesClass}">${match}</span>`;
+
+			return res;
+		});
+	}
+
+	/**
+	 * Проверяет на однострочный комментарий
+	 * @param {string} s Строка
+	 * @returns {string} Измененная строка
+	 */
+	isOneLineComment(s) {
+		if (!this.types.isString(s)) {
+			throw new Error(errorsMessages.string);
+		}
+
+		const { comments: commentsClass, } = styles;
+		const regexp = /\/{2}.*/g;
+
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${commentsClass}">${match}</span>`;
+
+			return res;
+		});
+	}
+
+	/**
+	 * Проверяет на многострочный комментарий
+	 * @param {string} s Строка
+	 * @returns {string} Измененная строка
+	 */
+	isMultilineComment(s) {
+		if (!this.types.isString(s)) {
+			throw new Error(errorsMessages.string);
+		}
+
+		const { comments: commentsClass, } = styles;
+		const regexp = /\/\*[^]*?\*\//g;
+
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${commentsClass}">${match}</span>`;
+
+			return res;
+		});
 	}
 
 	/**
@@ -20,10 +102,12 @@ export default class Rules {
 			throw new Error(errorsMessages.string);
 		}
 
-		return s.replace(/\bfunction\b|=>/gms, (match) => {
-			const { function: functionClass, } = styles;
+		const { function: functionClass, } = styles;
 
-			return `<span class="${functionClass}">${match}</span>`;
+		return s.replace(/\bfunction\b|=>/g, (match) => {
+			const res = `<span class="${functionClass}">${match}</span>`;
+
+			return res;
 		});
 	}
 
@@ -43,11 +127,13 @@ export default class Rules {
 		const { functionName: functionNameClass, } = styles;
 
 		return s.replace(regexp, (match) => {
+			const res = `<span class="${functionNameClass}">${match}</span>`;
+
 			if (ignoreFunctionNames.includes(match)) {
 				return match;
 			}
 
-			return `<span class="${functionNameClass}">${match}</span>`;
+			return res;
 		});
 	}
 
@@ -61,12 +147,14 @@ export default class Rules {
 			throw new Error(errorsMessages.string);
 		}
 
-		const regexp = /(\bconst\b|\bvar\b|\blet\b)(?=\s+)/gms;
+		const words = ["const", "var", "let"];
+		const regexp = new RegExp(`(\\b(${words.join("|")})\\b)(?=\\s+)`, "gms");
+		const { var: varClass, } = styles;
 
 		return s.replace(regexp, (match) => {
-			const { var: varClass, } = styles;
+			const res = `<span class="${varClass}">${match}</span>`;
 
-			return `<span class="${varClass}">${match}</span>`;
+			return res;
 		});
 	}
 
@@ -82,10 +170,12 @@ export default class Rules {
 
 		const { operatorsStyle: operatorsClass, } = styles;
 		const operators = ["return", "continue", "break", "throw", "in", "typeof", "of", "delete", "void", "this", "instanceof", "default"];
-		const regexp = new RegExp(`\\b(${operators.join("|")})\\b(?=\\s*)`, "gms");
+		const regexp = new RegExp(`\\b(${operators.join("|")})\\b`, "gs");
 
-		return s.replace(regexp, (str) => {
-			return `<span class="${operatorsClass}">${str}</span>`;
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${operatorsClass}">${match}</span>`;
+
+			return res;
 		});
 	}
 
@@ -100,9 +190,12 @@ export default class Rules {
 		}
 
 		const { className, } = styles;
+		const regexp = /(?<=(\b(new|class)\b)\s+)(\b[a-z|A-Z|\d|$|_|а-я|А-Я]+\b)/gms;
 
-		return s.replace(/(?<=(\b(new|class)\b)\s+)(\b[a-z|A-Z|\d|$|_|а-я|А-Я]+\b)/gms, (match) => {
-			return `<span class="${className}">${match}</span>`;
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${className}">${match}</span>`;
+
+			return res;
 		});
 	}
 
@@ -117,9 +210,12 @@ export default class Rules {
 		}
 
 		const { newOperatorStyle: newOperatorClass, } = styles;
+		const regexp = /\bnew\b/gms;
 
-		return s.replace(/\bnew\b/gms, (match) => {
-			return `<span class="${newOperatorClass}">${match}</span>`;
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${newOperatorClass}">${match}</span>`;
+
+			return res;
 		});
 	}
 
@@ -134,9 +230,12 @@ export default class Rules {
 		}
 
 		const { classStyle, } = styles;
+		const regexp = /\bclass\b\s+/gms;
 
-		return s.replace(/\bclass\b\s+/gms, (match) => {
-			return `<span class="${classStyle}">${match}</span>`;
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${classStyle}">${match}</span>`;
+
+			return res;
 		});
 	}
 
@@ -151,9 +250,12 @@ export default class Rules {
 		}
 
 		const { number: numberClass, } = styles;
+		const regexp = /\b\d+[\.|a-z|\d]*\b/gims;
 
-		return s.replace(/\b\d+[\.|a-z|\d]*\b/gims, (match) => {
-			return `<span class="${numberClass}">${match}</span>`;
+		return s.replace(regexp, (match) => {
+			const res = `<span class="${numberClass}">${match}</span>`;
+
+			return res;
 		});
 	}
 
@@ -172,41 +274,9 @@ export default class Rules {
 		const regexp = new RegExp(`\\b(${listConditionsOperators.join("|")})\\b`, "gms");
 
 		return s.replace(regexp, (match) => {
-			return `<span class="${conditionsClass}">${match}</span>`;
-		});
-	}
+			const res = `<span class="${conditionsClass}">${match}</span>`;
 
-	/**
-	 * Проверяет на однострочный комментарий
-	 * @param {string} s Строка
-	 * @returns {string} Измененная строка
-	 */
-	isOneLineComment(s) {
-		if (!this.types.isString(s)) {
-			throw new Error(errorsMessages.string);
-		}
-
-		const { comments: commentsClass, } = styles;
-
-		return s.replace(/\/{2}.*/g, (match) => {
-			return `<span class="${commentsClass}">${match}</span>`;
-		});
-	}
-
-	/**
-	 * Проверяет на многострочный комментарий
-	 * @param {string} s Строка
-	 * @returns {string} Измененная строка
-	 */
-	isMultilineComment(s) {
-		if (!this.types.isString(s)) {
-			throw new Error(errorsMessages.string);
-		}
-
-		const { comments: commentsClass, } = styles;
-
-		return s.replace(/\/\*[^]*?\*\//g, (match) => {
-			return `<span class="${commentsClass}">${match}</span>`;
+			return res;
 		});
 	}
 }

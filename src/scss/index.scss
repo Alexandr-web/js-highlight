@@ -35,10 +35,6 @@
 			color: $functionColor;
 		}
 
-		&-cmts {
-			color: $commentsColor;
-		}
-
 		&-oprs {
 			color: $operatorsColor;
 		}
@@ -49,6 +45,15 @@
 
 		&-v {
 			color: $varColor;
+		}
+
+		&-cmts {
+			color: $commentsColor !important;
+		}
+
+		&-q {
+			display: inline-block;
+			color: $quotesColor !important;
 		}
 	}
 }

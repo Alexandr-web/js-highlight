@@ -25,119 +25,99 @@ describe("Тесты для метода isOperators класса Rules:", () =>
 		expect(rules.isOperators(code)).toBe(code);
 	});
 	test("Передаем код, содержащий return, continue, break, throw, in, typeof, of, delete, void, this, instanceof, default:", () => {
-		const code = `
-		function exampleFunction(arr) {
-			let fruit = 'apple';
-
-			switch (fruit) {
-			  default:
-				console.log('Unknown fruit');
-			}
-
-			// return statement
-			return arr.length;
-		  
-			// continue statement
-			for (let i = 0; i < arr.length; i++) {
-			  if (arr[i] === 0) continue;
-			  // do something
-			}
-		  
-			// break statement
-			for (let i = 0; i < arr.length; i++) {
-			  if (arr[i] === 0) break;
-			  // do something
-			}
-		  
-			// throw statement
-			if (arr.length === 0) throw new Error('Array is empty');
-		  
-			// in operator
-			if ('key' in obj) {
-			  // do something
-			}
-		  
-			// typeof operator
-			if (typeof arr === 'object') {
-			  // do something
-			}
-		  
-			// of operator
-			for (const item of arr) {
-			  // do something with item
-			}
-		  
-			// delete operator
-			delete obj.key;
-		  
-			// void operator
-			let result = void 0;
-		  
-			// this keyword
-			console.log(this.name);
-		  
-			// instanceof operator
-			if (obj instanceof Array) {
-			  // ...
-			}
-		  }
-		`;
 		const res = `
-		function exampleFunction(arr) {
-			let fruit = 'apple';
-
-			switch (fruit) {
+		function myFunction() {
+			let arr = [1, 2, 3];
+		  
+			for (let i = 0; i < arr.length; i++) {
+			  if (arr[i] === 2) {
+				<span class="${operatorsClass}">continue</span>;
+			  }
+			  console.log(arr[i]);
+			}
+		  
+			let x = <span class="${operatorsClass}">delete</span> arr[0];
+			console.log(arr);
+			
+			try {
+			  if (arr <span class="${operatorsClass}">instanceof</span> Array) {
+				<span class="${operatorsClass}">throw</span> "Error";
+			  }
+			} catch (error) {
+			  console.log(error);
+			}
+		  
+			let person = {name: "John", age: 30};
+			console.log("age" <span class="${operatorsClass}">in</span> person);
+		  
+			let age = <span class="${operatorsClass}">typeof</span> 10;
+			console.log(age);
+		  
+			let num = 10;
+			switch (num) {
+			  case 1:
+				console.log("One");
+				<span class="${operatorsClass}">break</span>;
 			  <span class="${operatorsClass}">default</span>:
-				console.log('Unknown fruit');
-			}
-
-			// <span class="${operatorsClass}">return</span> statement
-			<span class="${operatorsClass}">return</span> arr.length;
-		  
-			// <span class="${operatorsClass}">continue</span> statement
-			for (let i = 0; i < arr.length; i++) {
-			  if (arr[i] === 0) <span class="${operatorsClass}">continue</span>;
-			  // do something
+				console.log("Other");
 			}
 		  
-			// <span class="${operatorsClass}">break</span> statement
-			for (let i = 0; i < arr.length; i++) {
-			  if (arr[i] === 0) <span class="${operatorsClass}">break</span>;
-			  // do something
+			let colors = ["red", "green", "blue"];
+			for (let color <span class="${operatorsClass}">of</span> colors) {
+			  console.log(color);
 			}
 		  
-			// <span class="${operatorsClass}">throw</span> statement
-			if (arr.length === 0) <span class="${operatorsClass}">throw</span> new Error('Array is empty');
-		  
-			// <span class="${operatorsClass}">in</span> operator
-			if ('key' <span class="${operatorsClass}">in</span> obj) {
-			  // do something
-			}
-		  
-			// <span class="${operatorsClass}">typeof</span> operator
-			if (<span class="${operatorsClass}">typeof</span> arr === 'object') {
-			  // do something
-			}
-		  
-			// <span class="${operatorsClass}">of</span> operator
-			for (const item <span class="${operatorsClass}">of</span> arr) {
-			  // do something with item
-			}
-		  
-			// <span class="${operatorsClass}">delete</span> operator
-			<span class="${operatorsClass}">delete</span> obj.key;
-		  
-			// <span class="${operatorsClass}">void</span> operator
-			let result = <span class="${operatorsClass}">void</span> 0;
-		  
-			// <span class="${operatorsClass}">this</span> keyword
-			console.log(<span class="${operatorsClass}">this</span>.name);
-		  
-			// <span class="${operatorsClass}">instanceof</span> operator
-			if (obj <span class="${operatorsClass}">instanceof</span> Array) {
-			  // ...
-			}
+			<span class="${operatorsClass}">return</span> <span class="${operatorsClass}">void</span> 0;
 		  }
+		  
+		  myFunction();		  
+		`;
+		const code = `
+		function myFunction() {
+			let arr = [1, 2, 3];
+		  
+			for (let i = 0; i < arr.length; i++) {
+			  if (arr[i] === 2) {
+				continue;
+			  }
+			  console.log(arr[i]);
+			}
+		  
+			let x = delete arr[0];
+			console.log(arr);
+			
+			try {
+			  if (arr instanceof Array) {
+				throw "Error";
+			  }
+			} catch (error) {
+			  console.log(error);
+			}
+		  
+			let person = {name: "John", age: 30};
+			console.log("age" in person);
+		  
+			let age = typeof 10;
+			console.log(age);
+		  
+			let num = 10;
+			switch (num) {
+			  case 1:
+				console.log("One");
+				break;
+			  default:
+				console.log("Other");
+			}
+		  
+			let colors = ["red", "green", "blue"];
+			for (let color of colors) {
+			  console.log(color);
+			}
+		  
+			return void 0;
+		  }
+		  
+		  myFunction();		  
 		`;
 
 		expect(rules.isOperators(code)).toBe(res);

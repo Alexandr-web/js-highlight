@@ -6,12 +6,14 @@ import Rules from "../classes/Rules";
  * @returns {string} Отформатированная строка
  */
 export default (s) => {
+	const rules = new Rules(s);
+	const ignoreMethods = ["constructor"];
 	const listRules = Object
 		.getOwnPropertyNames(Rules.prototype)
-		.filter((method) => method !== "constructor");
+		.filter((method) => !ignoreMethods.includes(method));
 
 	return listRules.reduce((res, rule) => {
-		res = new Rules()[rule](res);
+		res = rules[rule](res);
 
 		return res;
 	}, s);

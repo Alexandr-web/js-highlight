@@ -74,7 +74,7 @@ module.exports = {
 		],
 		"lines-between-class-members": ["error", "always"],
 		"max-classes-per-file": ["error", 1],
-		"max-params": ["error", 3],
+		"max-params": ["error", 4],
 		"multiline-ternary": ["error", "always-multiline"],
 		"new-cap": "error",
 		"new-parens": "error",
